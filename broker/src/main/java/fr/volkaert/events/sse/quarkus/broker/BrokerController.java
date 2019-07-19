@@ -36,8 +36,6 @@ public class BrokerController {
 
     Sse sse;
     OutboundSseEvent.Builder eventBuilder;
-    //SseEventSink sseEventSink = null;
-    //SseBroadcaster sseBroadcaster = null;
 
     // Usage: instantFormatter.format(Instant.now())
     private DateTimeFormatter instantFormatter = DateTimeFormatter
@@ -48,13 +46,10 @@ public class BrokerController {
     // Key is an event code, value is a SseBroadcaster
     Map<String, SseBroadcaster> broadcastersMap = new ConcurrentHashMap<>();
 
-    Object lock = new Object();
-
     @Context
     public void setSse (Sse sse) {
         this.sse = sse;
         this.eventBuilder = sse.newEventBuilder();
-        //this.sseBroadcaster = sse.newBroadcaster();
     }
 
     @POST
@@ -74,7 +69,6 @@ public class BrokerController {
     public void subscribeUsingGETForTestsOnly(@Context SseEventSink sseEventSink, @PathParam("eventCode") String eventCode) {
         subscribe(sseEventSink, eventCode);
     }
-
 
     @POST
     @Path("/publications")
